@@ -9,6 +9,7 @@
 - [ ] Hover documentation
 - [ ] Same file references
 - [ ] Symbol lookup
+- [ ] Support things like `tpldir`
 
 ## General
 
