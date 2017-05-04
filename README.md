@@ -1,2 +1,3 @@
 # vscode-saltstack
-VSCode extensions for Saltstack
+
+Provides basic support for SaltStack state files (SLS).

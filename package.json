@@ -1,7 +1,7 @@
 {
   "name": "saltstack-contrib",
   "displayName": "SaltStack",
-  "description": "Provides basic support for Saltstack state files (SLS).",
+  "description": "Provides basic support for SaltStack state files (SLS).",
   "version": "0.1.0",
   "publisher": "Silvenga",
   "author": {
