@@ -56,6 +56,14 @@
           ".sls"
         ],
         "configuration": "./language-configuration.json"
+      },
+      {
+        "id": "sls-jinja",
+        "aliases": [
+          "Jinja Backport"
+        ],
+        "extensions": [],
+        "configuration": "./language-configuration.json"
       }
     ],
     "grammars": [
@@ -65,7 +73,7 @@
         "path": "./syntaxes/sls.json"
       },
       {
-        "language": "jinja",
+        "language": "sls-jinja",
         "scopeName": "source.jinja",
         "path": "./syntaxes/jinja.json"
       }
