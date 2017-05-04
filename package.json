@@ -1,0 +1,85 @@
+{
+  "name": "saltstack-contrib",
+  "displayName": "SaltStack",
+  "description": "Provides basic support for Saltstack state files (SLS).",
+  "version": "0.1.0",
+  "publisher": "Silvenga",
+  "author": {
+    "name": "Mark Lopez"
+  },
+  "scripts": {
+    "vscode:prepublish": "tsc -p ./",
+    "compile": "tsc -p ./",
+    "compile:watch": "tsc -watch -p ./",
+    "postinstall": "node ./node_modules/vscode/bin/install",
+    "tslint": "tslint -c tslint.json src/**/*.ts",
+    "test": "ava",
+    "test:watch": "ava --watch"
+  },
+  "ava": {
+    "files": [
+      "dist/test/**/*Tests.js"
+    ],
+    "source": [
+      "src/**/*.ts"
+    ]
+  },
+  "engines": {
+    "vscode": "^1.11.0"
+  },
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Silvenga/vscode-saltstack/issues",
+    "email": "m@silvenga.com"
+  },
+  "homepage": "https://github.com/Silvenga/vscode-saltstack/blob/master/README.md",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Silvenga/vscode-saltstack.git"
+  },
+  "categories": [
+    "Languages",
+    "Linters"
+  ],
+  "activationEvents": [
+    "onLanguage:sls"
+  ],
+  "main": "./dist/src/extension",
+  "contributes": {
+    "languages": [
+      {
+        "id": "sls",
+        "aliases": [
+          "Salt State File (SLS)"
+        ],
+        "extensions": [
+          ".sls"
+        ],
+        "configuration": "./language-configuration.json"
+      }
+    ],
+    "grammars": [
+      {
+        "language": "sls",
+        "scopeName": "source.sls",
+        "path": "./syntaxes/sls.json"
+      },
+      {
+        "language": "jinja",
+        "scopeName": "source.jinja",
+        "path": "./syntaxes/jinja.json"
+      }
+    ],
+    "commands": []
+  },
+  "devDependencies": {
+    "@types/node": "^6.0.72",
+    "@types/chai": "^3.5.2",
+    "ava": "^0.19.1",
+    "chai": "^3.5.0",
+    "tslint": "^4.5.1",
+    "typescript": "^2.3.2",
+    "vscode": "^1.1.0"
+  },
+  "dependencies": {}
+}
