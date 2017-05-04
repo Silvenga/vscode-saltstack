@@ -1,4 +1,6 @@
 {
+    "_comment1": "From https://github.com/wholroyd/vscode-jinja - included directly to prevent issues.",
+    "_comment2": "Copyright (c) 2016 William Holroyd - MIT License",
     "name": "jinja",
     "scopeName": "source.jinja",
     "comment": "Jinja Template Engine",
