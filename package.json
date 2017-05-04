@@ -81,13 +81,16 @@
     "commands": []
   },
   "devDependencies": {
-    "@types/node": "^6.0.72",
     "@types/chai": "^3.5.2",
+    "@types/js-yaml": "^3.5.30",
+    "@types/node": "^6.0.72",
     "ava": "^0.19.1",
     "chai": "^3.5.0",
     "tslint": "^4.5.1",
     "typescript": "^2.3.2",
     "vscode": "^1.1.0"
   },
-  "dependencies": {}
+  "dependencies": {
+    "js-yaml": "^3.8.3"
+  }
 }
