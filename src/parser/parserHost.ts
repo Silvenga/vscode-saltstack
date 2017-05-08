@@ -86,28 +86,52 @@ export class ParserHost {
 
         return argument;
     }
+
+    public flatten(root: StateNode): StateNode[] {
+        if (root.childrenNodes.length == 0) {
+            return [];
+        }
+        let children = root.childrenNodes
+            .map(x => this.flatten(x))
+            .reduce((pre, next) => pre.concat(next));
+        return children;
+    }
 }
 
-export class StateNode {
-    startIndex: number;
-    endIndex: number;
+export abstract class StateNode {
+    public startIndex: number;
+    public endIndex: number;
+
+    public abstract get childrenNodes(): StateNode[];
 }
 
 export class StateFile extends StateNode {
     public declarations: StateDeclaration[] = new Array<StateDeclaration>();
+    public get childrenNodes(): StateNode[] {
+        return this.declarations;
+    }
 }
 
 export class StateDeclaration extends StateNode {
     public id: string;
     public functions: StateFunction[] = new Array<StateFunction>();
+    public get childrenNodes(): StateNode[] {
+        return this.functions;
+    }
 }
 
 export class StateFunction extends StateNode {
     public name: string;
     public arguments: StateFunctionArgument[] = new Array<StateFunctionArgument>();
+    public get childrenNodes(): StateNode[] {
+        return this.arguments;
+    }
 }
 
 export class StateFunctionArgument extends StateNode {
     public name: string;
     public value: string;
+    public get childrenNodes(): StateNode[] {
+        return [];
+    }
 }
