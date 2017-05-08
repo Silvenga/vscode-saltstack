@@ -91,6 +91,6 @@
     "vscode": "^1.1.0"
   },
   "dependencies": {
-    "js-yaml": "^3.8.3"
+    "yaml-ast-parser": "0.0.32"
   }
 }
