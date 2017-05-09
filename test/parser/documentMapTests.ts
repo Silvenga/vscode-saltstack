@@ -1,10 +1,10 @@
 import test from 'ava';
 import { expect } from 'chai';
-import { ParserHost } from "../../src/parser/parserHost"
+import { StateParser } from "../../src/parser/stateParser"
 
 test('Can parse single declaration', t => {
 
-    let host = new ParserHost();
+    let host = new StateParser();
     const document =
         `
 /etc/postfix:
@@ -28,7 +28,7 @@ test('Can parse single declaration', t => {
 
 test('Can parse multiple declarations', t => {
 
-    let host = new ParserHost();
+    let host = new StateParser();
     const document =
         `
 test1:
@@ -47,7 +47,7 @@ test2:
 
 test('Can parse function.', t => {
 
-    let host = new ParserHost();
+    let host = new StateParser();
     const document =
         `
 /etc/postfix:
@@ -73,7 +73,7 @@ test('Can parse function.', t => {
 
 test('Can parse argument.', t => {
 
-    let host = new ParserHost();
+    let host = new StateParser();
     const document =
         `
 /etc/postfix:

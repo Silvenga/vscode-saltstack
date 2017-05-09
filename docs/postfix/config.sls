@@ -1,5 +1,5 @@
-include:
-  - postfix
+# include:
+#   - postfix
 
 /etc/postfix:
   file.directory:

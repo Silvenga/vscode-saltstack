@@ -16,6 +16,6 @@ python-pip:
     - reload_modules: true
 
 pep8:
-  pip.installed:
+  pip_state.installed:
     - require:
       - cmd: python-pip

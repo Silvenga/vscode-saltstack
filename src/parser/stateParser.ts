@@ -10,7 +10,7 @@ import { YAMLDocument, YAMLNode, YAMLScalar, YAMLMapping, YamlMap, YAMLSequence,
 
 const LineBreakRegex = /\r?\n/;
 
-export class ParserHost {
+export class StateParser {
 
     public stripDocument(document: string): string {
         let jinjaDirectives = /\{[#%][\w\W]*?[#%]\}/g;
@@ -89,12 +89,12 @@ export class ParserHost {
 
     public flatten(root: StateNode): StateNode[] {
         if (root.childrenNodes.length == 0) {
-            return [];
+            return [root];
         }
         let children = root.childrenNodes
             .map(x => this.flatten(x))
             .reduce((pre, next) => pre.concat(next));
-        return children;
+        return [root].concat(children);
     }
 }
 
