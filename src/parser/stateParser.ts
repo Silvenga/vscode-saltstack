@@ -1,5 +1,10 @@
+import { StateDeclaration, StateFunction, StateFunctionArgument } from "./models/stateDeclaration"
+import { StateFile } from "./models/stateFile"
+import { StateNode } from "./models/stateNode"
+
 import * as yaml from "yaml-ast-parser"
 import { YAMLDocument, YAMLNode, YAMLScalar, YAMLMapping, YamlMap, YAMLSequence, YAMLAnchorReference, Kind } from "yaml-ast-parser"
+
 
 //     SCALAR = 0,
 //     MAPPING = 1,
@@ -95,43 +100,5 @@ export class StateParser {
             .map(x => this.flatten(x))
             .reduce((pre, next) => pre.concat(next));
         return [root].concat(children);
-    }
-}
-
-export abstract class StateNode {
-    public startIndex: number;
-    public endIndex: number;
-
-    public abstract get childrenNodes(): StateNode[];
-}
-
-export class StateFile extends StateNode {
-    public declarations: StateDeclaration[] = new Array<StateDeclaration>();
-    public get childrenNodes(): StateNode[] {
-        return this.declarations;
-    }
-}
-
-export class StateDeclaration extends StateNode {
-    public id: string;
-    public functions: StateFunction[] = new Array<StateFunction>();
-    public get childrenNodes(): StateNode[] {
-        return this.functions;
-    }
-}
-
-export class StateFunction extends StateNode {
-    public name: string;
-    public arguments: StateFunctionArgument[] = new Array<StateFunctionArgument>();
-    public get childrenNodes(): StateNode[] {
-        return this.arguments;
-    }
-}
-
-export class StateFunctionArgument extends StateNode {
-    public name: string;
-    public value: string;
-    public get childrenNodes(): StateNode[] {
-        return [];
     }
 }

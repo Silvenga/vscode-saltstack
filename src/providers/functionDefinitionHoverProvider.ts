@@ -1,8 +1,10 @@
 import { HoverProvider, Hover, MarkedString, TextDocument, CancellationToken, Position, window, ProviderResult } from 'vscode';
-import { StateParser, StateFile, StateDeclaration, StateFunction } from "../parser/stateParser"
+import { StateParser } from "../parser/stateParser"
+import { StateFile } from "../parser/models/stateFile"
+import { StateDeclaration, StateFunction, StateFunctionArgument } from "../parser/models/stateDeclaration"
 
-import *  as json from "../../assets/stateFunctions.json";
-let Definitions = (json as any) as Definition[];
+import { Definitions } from "./../assets"
+
 
 export class FunctionDefinitionHoverProvider implements HoverProvider {
     provideHover(document: TextDocument, position: Position, token: CancellationToken): ProviderResult<Hover> {
@@ -30,15 +32,3 @@ export class FunctionDefinitionHoverProvider implements HoverProvider {
     }
 }
 
-class Definition {
-    public FunctionId: string;
-    public Description: string;
-    public Arguments: DefinitionArgument[];
-}
-
-class DefinitionArgument {
-    public Name: string;
-    public DefaultValue: string;
-    public IsRequired: boolean;
-    public Description: string;
-}
