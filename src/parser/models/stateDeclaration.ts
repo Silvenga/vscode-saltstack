@@ -18,7 +18,14 @@ export class StateFunction extends StateNode {
 
 export class StateFunctionArgument extends StateNode {
     public name: string;
-    public value: string;
+    public value: StateFunctionArgumentValue;
+    public get childrenNodes(): StateNode[] {
+        return [this.value];
+    }
+}
+
+export class StateFunctionArgumentValue extends StateNode {
+    public value: string; // TODO value.value sucks
     public get childrenNodes(): StateNode[] {
         return [];
     }

@@ -1,4 +1,4 @@
-import { StateDeclaration, StateFunction, StateFunctionArgument } from "./models/stateDeclaration"
+import { StateDeclaration, StateFunction, StateFunctionArgument, StateFunctionArgumentValue } from "./models/stateDeclaration"
 import { StateFile } from "./models/stateFile"
 import { StateNode } from "./models/stateNode"
 
@@ -85,9 +85,13 @@ export class StateParser {
         let argument = new StateFunctionArgument();
 
         argument.name = root.mappings[0].key.value;
-        argument.value = root.mappings[0].value.value;
-        argument.startIndex = root.startPosition;
-        argument.endIndex = root.endPosition;
+        argument.startIndex = root.mappings[0].key.startPosition;
+        argument.endIndex = root.mappings[0].key.endPosition;
+
+        argument.value = new StateFunctionArgumentValue();
+        argument.value.value = root.mappings[0].value.value;
+        argument.value.startIndex = root.mappings[0].value.startPosition;
+        argument.value.endIndex = root.mappings[0].value.endPosition;
 
         return argument;
     }

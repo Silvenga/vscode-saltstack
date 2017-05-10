@@ -91,8 +91,8 @@ test('Can parse argument.', t => {
     // Assert
     t.is(result.declarations[0].functions[0].arguments.length, 5);
     t.is(result.declarations[0].functions[0].arguments[0].name, "user");
-    t.is(result.declarations[0].functions[0].arguments[0].value, "root");
+    t.is(result.declarations[0].functions[0].arguments[0].value.value, "root");
     t.is(result.declarations[0].functions[0].arguments[0].startIndex, 39);
-    t.is(result.declarations[0].functions[0].arguments[0].endIndex, 49);
+    t.is(result.declarations[0].functions[0].arguments[0].endIndex, 43);
 });
 

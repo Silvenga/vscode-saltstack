@@ -3,6 +3,7 @@
 
 /etc/postfix:
   file.directory:
+    - name: /etc/postfix
     - user: root
     - group: root
     - dir_mode: 755
