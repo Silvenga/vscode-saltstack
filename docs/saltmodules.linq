@@ -52,7 +52,7 @@ async Task<IList<Function>> GetModule(string url)
 	return functions.Select(d => new Function
 	{
 		FunctionId = d.QuerySelector("dt").Id,
-		Desciption = d.QuerySelector("dd > p")?.TextContent ?? "Unknown",
+		Description = d.QuerySelector("dd > p")?.TextContent ?? "Unknown",
 		Arguments = (from arg in d.QuerySelector("dt").QuerySelectorAll("em").Select(x => x.TextContent)
 					 let parsed = ParseFunctionArgument(arg)
 					 from desciption in Tranverse(d?.QuerySelector("dl")?.QuerySelectorAll("dt").FirstOrDefault(x => x?.TextContent == parsed.Name), x => x?.NextElementSibling)
@@ -121,6 +121,6 @@ public class FunctionArgument
 public class Function
 {
 	public string FunctionId { get; set; }
-	public string Desciption { get; set; }
+	public string Description { get; set; }
 	public IList<FunctionArgument> Arguments { get; set; }
 }

@@ -18,13 +18,13 @@ export class FunctionDefinitionHoverProvider implements HoverProvider {
         let hoverNode = nodes.find(x => x.startIndex <= offset && x.endIndex >= offset && !(x instanceof StateFile));
 
         if (hoverNode instanceof StateDeclaration) {
-            return new Hover(`${hoverNode.id} (declaration)`);
+            return this.toHover(`${hoverNode.id} (declaration)`);
         }
 
         if (hoverNode instanceof StateFunction) {
             let definition = Assets.getStateDefinition(hoverNode.name);
             if (definition != null) {
-                return new Hover(`${definition.description} (function)`);
+                return this.toHover(`${definition.description} (function)`);
             }
         }
 
@@ -33,10 +33,10 @@ export class FunctionDefinitionHoverProvider implements HoverProvider {
             let definition = Assets.getStateDefinition(hoverNode.function.name);
             let argument = definition.arguments.find(x => x.name == argumentName);
             let message =
-                `_${argument.isRequired ? "Required" : `Default: ${argument.defaultValue}`}_\n\n`
-                + `${argument.description}\n\n`
+                `_${argument.isRequired ? "Required" : `Default: ${argument.defaultValue}`}_\n`
+                + `${argument.description}\n`
                 + `(argument for ${definition.functionId})`;
-            return new Hover(message);
+            return this.toHover(message);
         }
 
         if (hoverNode instanceof StateFunctionArgumentValue) {
@@ -44,9 +44,9 @@ export class FunctionDefinitionHoverProvider implements HoverProvider {
             let definition = Assets.getStateDefinition(hoverNode.argument.function.name);
             let argument = definition.arguments.find(x => x.name == argumentName);
             let message =
-                `_${argument.isRequired ? "Required" : `Default: ${argument.defaultValue}`}_\n\n`
+                `_${argument.isRequired ? "Required" : `Default: ${argument.defaultValue}`}_\n`
                 + `(argument value for ${definition.functionId}.${argument.name})`;
-            return new Hover(message);
+            return this.toHover(message);
         }
 
         if (hoverNode != null) {
@@ -54,6 +54,11 @@ export class FunctionDefinitionHoverProvider implements HoverProvider {
         }
 
         return null;
+    }
+
+    private toHover(input: string): Hover {
+        let formatted = input.replace(/\r?\n/, "\n\n");
+        return new Hover(formatted);
     }
 }
 

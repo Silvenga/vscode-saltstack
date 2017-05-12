@@ -2,6 +2,8 @@ import *  as json from "../assets/stateFunctions.json";
 
 let Definitions = (json as any) as StateDefinition[];
 
+// TODO Auto-gen docs remove some angle brackets 
+
 export class Assets {
     public static getStateDefinition(name: string): StateDefinition {
         let fullyQualifiedStateName = `salt.states.${name}`;
