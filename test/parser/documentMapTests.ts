@@ -26,15 +26,18 @@ test('Can parse single declaration', t => {
     t.is(result.declarations[0].file, result);
 });
 
-test('Can parse multiple declarations', t => {
+test('Can parse when jinja statements are present.', t => {
 
     let host = new StateParser();
     const document =
         `
 test1:
   file.directory:
+    - name: something
+{% set some = true %}
 test2:
   file.directory:
+    - name: something
 `;
 
     // Act

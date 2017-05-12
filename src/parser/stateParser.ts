@@ -31,8 +31,7 @@ export class StateParser {
     public mapFile(document: string): StateFile {
 
         let strippedDocument = this.stripDocument(document);
-
-        var root = this.getYaml(document);
+        var root = this.getYaml(strippedDocument);
         let file = new StateFile();
         file.startIndex = root.startPosition;
         file.endIndex = root.endPosition;
