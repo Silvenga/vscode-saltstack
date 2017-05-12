@@ -17,13 +17,13 @@ test('Can parse single declaration', t => {
 `;
 
     // Act
-    let result = host.getMap(document);
+    let result = host.mapFile(document);
 
     // Assert
     t.is(result.declarations.length, 1);
     t.is(result.declarations[0].startIndex, 1);
     t.is(result.declarations[0].endIndex, 13);
-    t.is(result.declarations[0].id, "/etc/postfix");
+    t.is(result.declarations[0].file, result);
 });
 
 test('Can parse multiple declarations', t => {
@@ -38,7 +38,7 @@ test2:
 `;
 
     // Act
-    let result = host.getMap(document);
+    let result = host.mapFile(document);
 
     // Assert
     t.is(result.declarations.length, 2);
@@ -60,13 +60,14 @@ test('Can parse function.', t => {
 `;
 
     // Act
-    let result = host.getMap(document);
+    let result = host.mapFile(document);
 
     // Assert
     t.is(result.declarations[0].functions.length, 1);
     t.is(result.declarations[0].functions[0].name, "file.directory");
     t.is(result.declarations[0].functions[0].startIndex, 17);
     t.is(result.declarations[0].functions[0].endIndex, 31);
+    t.is(result.declarations[0].functions[0].declaration, result.declarations[0]);
 });
 
 
@@ -86,7 +87,7 @@ test('Can parse argument.', t => {
 `;
 
     // Act
-    let result = host.getMap(document);
+    let result = host.mapFile(document);
 
     // Assert
     t.is(result.declarations[0].functions[0].arguments.length, 5);
@@ -94,5 +95,6 @@ test('Can parse argument.', t => {
     t.is(result.declarations[0].functions[0].arguments[0].value.value, "root");
     t.is(result.declarations[0].functions[0].arguments[0].startIndex, 39);
     t.is(result.declarations[0].functions[0].arguments[0].endIndex, 43);
+    t.is(result.declarations[0].functions[0].arguments[0].function, result.declarations[0].functions[0]);
 });
 

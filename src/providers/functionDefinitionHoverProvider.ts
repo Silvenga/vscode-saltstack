@@ -14,7 +14,7 @@ export class FunctionDefinitionHoverProvider implements HoverProvider {
 
         let host = new StateParser();
 
-        let map = host.getMap(document.getText());
+        let map = host.mapFile(document.getText());
 
         let nodes = host.flatten(map);
         let reversedNodes = [].concat(nodes).reverse() as StateNode[];
