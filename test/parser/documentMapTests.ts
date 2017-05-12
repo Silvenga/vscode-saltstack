@@ -98,3 +98,28 @@ test('Can parse argument.', t => {
     t.is(result.declarations[0].functions[0].arguments[0].function, result.declarations[0].functions[0]);
 });
 
+
+test('Can parse argument value.', t => {
+
+    let host = new StateParser();
+    const document =
+        `
+/etc/postfix:
+  file.directory:
+    - user: root
+    - group: root
+    - dir_mode: 755
+    - file_mode: 644
+    - makedirs: True
+`;
+
+    // Act
+    let result = host.mapFile(document);
+
+    // Assert
+    t.is(result.declarations[0].functions[0].arguments[0].value.value, "root");
+    t.is(result.declarations[0].functions[0].arguments[0].value.startIndex, 45);
+    t.is(result.declarations[0].functions[0].arguments[0].value.endIndex, 49);
+    t.is(result.declarations[0].functions[0].arguments[0].value.argument, result.declarations[0].functions[0].arguments[0]);
+});
+

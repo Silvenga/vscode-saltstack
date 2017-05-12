@@ -1,14 +1,22 @@
 import *  as json from "../assets/stateFunctions.json";
 
-export let Definitions = (json as any) as Definition[];
+let Definitions = (json as any) as StateDefinition[];
 
-export class Definition {
-    public FunctionId: string;
-    public Description: string;
-    public Arguments: DefinitionArgument[];
+export class Assets {
+    public static getStateDefinition(name: string): StateDefinition {
+        let fullyQualifiedStateName = `salt.states.${name}`;
+        let definition = Definitions.find(x => x.FunctionId == fullyQualifiedStateName);
+        return definition;
+    }
 }
 
-export class DefinitionArgument {
+export class StateDefinition {
+    public FunctionId: string;
+    public Description: string;
+    public Arguments: StateArgumentDefinition[];
+}
+
+export class StateArgumentDefinition {
     public Name: string;
     public DefaultValue: string;
     public IsRequired: boolean;

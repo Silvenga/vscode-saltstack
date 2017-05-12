@@ -101,6 +101,7 @@ export class StateParser {
         value.value = root.value;
         value.startIndex = root.startPosition;
         value.endIndex = root.endPosition;
+        value.argument = arg;
         return value;
     }
 
