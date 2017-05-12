@@ -5,20 +5,20 @@ let Definitions = (json as any) as StateDefinition[];
 export class Assets {
     public static getStateDefinition(name: string): StateDefinition {
         let fullyQualifiedStateName = `salt.states.${name}`;
-        let definition = Definitions.find(x => x.FunctionId == fullyQualifiedStateName);
+        let definition = Definitions.find(x => x.functionId == fullyQualifiedStateName);
         return definition;
     }
 }
 
 export class StateDefinition {
-    public FunctionId: string;
-    public Description: string;
-    public Arguments: StateArgumentDefinition[];
+    public functionId: string;
+    public description: string;
+    public arguments: StateArgumentDefinition[];
 }
 
 export class StateArgumentDefinition {
-    public Name: string;
-    public DefaultValue: string;
-    public IsRequired: boolean;
-    public Description: string;
+    public name: string;
+    public defaultValue: string;
+    public isRequired: boolean;
+    public description: string;
 }

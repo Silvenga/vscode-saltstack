@@ -24,28 +24,28 @@ export class FunctionDefinitionHoverProvider implements HoverProvider {
         if (hoverNode instanceof StateFunction) {
             let definition = Assets.getStateDefinition(hoverNode.name);
             if (definition != null) {
-                return new Hover(`${definition.Description} (function)`);
+                return new Hover(`${definition.description} (function)`);
             }
         }
 
         if (hoverNode instanceof StateFunctionArgument) {
             let argumentName = hoverNode.name;
             let definition = Assets.getStateDefinition(hoverNode.function.name);
-            let argument = definition.Arguments.find(x => x.Name == argumentName);
+            let argument = definition.arguments.find(x => x.name == argumentName);
             let message =
-                `_${argument.IsRequired ? "Required" : `Default: ${argument.DefaultValue}`}_\n\n`
-                + `${argument.Description}\n\n`
-                + `(argument for ${definition.FunctionId})`;
+                `_${argument.isRequired ? "Required" : `Default: ${argument.defaultValue}`}_\n\n`
+                + `${argument.description}\n\n`
+                + `(argument for ${definition.functionId})`;
             return new Hover(message);
         }
 
         if (hoverNode instanceof StateFunctionArgumentValue) {
             let argumentName = hoverNode.argument.name;
             let definition = Assets.getStateDefinition(hoverNode.argument.function.name);
-            let argument = definition.Arguments.find(x => x.Name == argumentName);
+            let argument = definition.arguments.find(x => x.name == argumentName);
             let message =
-                `_${argument.IsRequired ? "Required" : `Default: ${argument.DefaultValue}`}_\n\n`
-                + `(argument value for ${definition.FunctionId}.${argument.Name})`;
+                `_${argument.isRequired ? "Required" : `Default: ${argument.defaultValue}`}_\n\n`
+                + `(argument value for ${definition.functionId}.${argument.name})`;
             return new Hover(message);
         }
 

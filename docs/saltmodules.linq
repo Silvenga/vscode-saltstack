@@ -1,10 +1,13 @@
 <Query Kind="Program">
   <NuGetReference>AngleSharp</NuGetReference>
+  <NuGetReference>Html2Markdown</NuGetReference>
   <NuGetReference>Newtonsoft.Json</NuGetReference>
   <Namespace>AngleSharp</Namespace>
   <Namespace>AngleSharp.Dom.Html</Namespace>
-  <Namespace>System.Threading.Tasks</Namespace>
   <Namespace>Newtonsoft.Json</Namespace>
+  <Namespace>Newtonsoft.Json.Serialization</Namespace>
+  <Namespace>System.Threading.Tasks</Namespace>
+  <Namespace>AngleSharp.Parser.Html</Namespace>
 </Query>
 
 async Task Main()
@@ -26,13 +29,17 @@ async Task Main()
 
 	var functions = new List<Function>();
 
-	foreach (var mod in modules)
+	foreach (var mod in modules.Where(x => x.Module == "salt.states.file" || true))
 	{
 		var module = await GetModule(mod.Url);
 		functions.AddRange(module);
 	}
 
-	var json = JsonConvert.SerializeObject(functions);
+	var json = JsonConvert.SerializeObject(functions, new JsonSerializerSettings
+	{
+		Formatting = Newtonsoft.Json.Formatting.Indented,
+		ContractResolver = new CamelCasePropertyNamesContractResolver()
+	});
 	json.Dump();
 }
 
@@ -51,17 +58,31 @@ async Task<IList<Function>> GetModule(string url)
 					 from desciption in Tranverse(d?.QuerySelector("dl")?.QuerySelectorAll("dt").FirstOrDefault(x => x?.TextContent == parsed.Name), x => x?.NextElementSibling)
 					 				 .Where(x => x?.TagName == "DD")
 									 .Take(1)
-									 .Select(x => x?.TextContent)
+									 //									 .Select(x => x?.TextContent)
 									 .DefaultIfEmpty()
 					 select new FunctionArgument
 					 {
 						 Name = parsed.Name,
 						 DefaultValue = parsed.DefaultValue,
 						 IsRequired = parsed.IsRequired,
-						 Desciption = desciption ?? "Unknown"
+						 Description = HtmlToMarkdown(desciption?.InnerHtml) ?? "Unknown"
 					 })
 					 .ToList()
 	}).ToList();
+}
+
+public string HtmlToMarkdown(string input)
+{
+	if (input == null)
+	{
+		return null;
+	}
+	var converter = new Html2Markdown.Converter();
+	var markdown = converter.Convert(input);
+	var parser = new HtmlParser();
+	var document = parser.Parse($"<div>{markdown}</div>");
+	var a = document.FirstChild.TextContent;
+	return a;
 }
 
 public IEnumerable<T> Tranverse<T>(T input, Func<T, T> selector)
@@ -94,7 +115,7 @@ public class FunctionArgument
 
 	public bool IsRequired { get; set; }
 
-	public string Desciption { get; set; }
+	public string Description { get; set; }
 }
 
 public class Function
@@ -103,8 +124,3 @@ public class Function
 	public string Desciption { get; set; }
 	public IList<FunctionArgument> Arguments { get; set; }
 }
-
-
-
-
-
