@@ -68,6 +68,19 @@ export class StateParser {
             .map(x => x.values.map(c => c.value))
             .reduce((x, y) => x.concat(y), []);
 
+        func.ids.push(dec.id);
+        let nameArgument = func.arguments.find(x => x.name == "name");
+        if (nameArgument != null) {
+            func.ids.push(nameArgument.values.reduce((x, y) => x + y.value, ""));
+        }
+
+        let moduleNameParts = func.name.split(".");
+        if (moduleNameParts.length == 2) {
+            func.moduleName = moduleNameParts[0];
+            func.moduleFunctionName = moduleNameParts[1];
+            func.ids = func.ids.concat(func.ids.map(x => `${func.moduleName}: ${x}`))
+        }
+
         return func;
     }
 

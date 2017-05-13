@@ -11,7 +11,10 @@ export class StateDeclaration extends StateNode {
 }
 
 export class StateFunction extends StateNode {
+    public moduleName: string;
+    public moduleFunctionName: string;
     public name: string;
+    public ids = new Array<string>();
     public declaration: StateDeclaration;
     public arguments: StateFunctionArgument[] = new Array<StateFunctionArgument>();
 

@@ -19,3 +19,4 @@ pep8:
   pip_state.installed:
     - require:
       - cmd: python-pip
+      - pkg: install_network_packages
