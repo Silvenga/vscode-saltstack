@@ -92,7 +92,9 @@ export class StateParser {
         argument.endIndex = root.mappings[0].key.endPosition;
         argument.function = func;
 
-        argument.values = this.mapArgumentValue(root.mappings[0].value, argument);
+        if (root.mappings[0].value != null) {
+            argument.values = this.mapArgumentValue(root.mappings[0].value, argument);
+        }
 
         return argument;
     }
@@ -114,7 +116,11 @@ export class StateParser {
             value.startIndex = root.startPosition;
             value.endIndex = root.endPosition;
             let map = root as YamlMap;
-            value.value = map.mappings.map(x => `${x.key.value}: ${x.value.value}`).reduce((x, y) => x + ", " + y);
+            value.value = map.mappings
+                .filter(x => x.key != null && x.value != null)
+                .map(x => `${x.key.value}: ${x.value.value}`)
+                .reduce((x, y) => x + ", " + y, "")
+                .substring(2); // TODO Hack
             return [value];
         }
         else {

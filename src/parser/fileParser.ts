@@ -14,7 +14,9 @@ export class FileParser {
 
     public stripDocument(document: string): string {
         let jinjaDirectives = /\{[#%][\w\W]*?[#%]\}/g;
-        return document.replace(jinjaDirectives, x => x.replace(/./g, " "));
+        let jinjaContent = /\{[\{][\w\W]*?[\}]\}/g;
+        return document.replace(jinjaDirectives, x => x.replace(/./g, " "))
+            .replace(jinjaContent, x => x.replace(/[\{\}\[\]\(\),&\*#\?\|\-<>=!%@`]/g, "_")); // TODO HACK
     }
 
     public getYaml(document: string) {

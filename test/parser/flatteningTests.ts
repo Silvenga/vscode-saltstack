@@ -66,3 +66,53 @@ pep8:
     // Assert
     t.pass();
 });
+
+test('When include does exist, dont error.', t => {
+
+    let host = new FileParser();
+    const document =
+        `
+postgrey:
+  pkg.installed:
+    - name: {{ postfix.postgrey_pkg }}
+    - watch_in:
+      - service: postgrey
+
+  service.running:
+    - enable: {{ salt['pillar.get']('postfix:postgrey:enable_service', True) }}
+    - require:
+      - pkg: postgrey
+    - watch:
+      - pkg: postgrey
+`;
+
+    // Act
+    let result = host.mapFile(document);
+    let flattened = host.flatten(result);
+
+    // Assert
+    t.pass();
+});
+
+test('When include does exist, dont error.', t => {
+
+    let host = new FileParser();
+    const document =
+        `
+something:
+  cmd.wait:
+    - name: /usr/sbin/postmap {{ file_path }}
+    - cwd: /
+    - watch:
+      - file: {{ file_path }}
+    - watch_in:
+      - service: postfix
+`;
+
+    // Act
+    let result = host.mapFile(document);
+    let flattened = host.flatten(result);
+
+    // Assert
+    t.pass();
+});

@@ -36,3 +36,18 @@ normal:
     // Assert
     t.is(result.trim(), "normal:");
 });
+
+test('When stripping document, escape jinja content.', t => {
+
+    let host = new FileParser();
+    const document =
+        `
+{{ test }}
+`;
+
+    // Act
+    let result = host.stripDocument(document);
+
+    // Assert
+    t.is(result.trim(), "'{ test }'");
+});

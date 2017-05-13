@@ -18,7 +18,7 @@ export class ReferencesCodeLensProvider implements CodeLensProvider {
             let start = document.positionAt(x.startIndex);
             let end = document.positionAt(x.endIndex);
             let refs = functions.filter(c => c.references.find(b => x.ids.find(v => v == b) != null))
-            let title = `${refs.length} ${refs.length == 1 ? "reference" : "references"}`;
+            let title = `${refs.length} inbound ${refs.length == 1 ? "reference" : "references"}`;
             let lens = new CodeLens(new Range(start, end), { title: title, command: null });
 
             return lens;
