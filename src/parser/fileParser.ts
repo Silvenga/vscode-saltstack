@@ -7,13 +7,6 @@ import { StateDeclaration } from "./models/stateDeclaration"
 import { StateParser } from "./stateParser"
 import { IncludeParser } from "./includeParser"
 
-//     SCALAR = 0,
-//     MAPPING = 1,
-//     MAP = 2,
-//     SEQ = 3,
-//     ANCHOR_REF = 4,
-//     INCLUDE_REF = 5,
-
 export class FileParser {
 
     private stateParser: StateParser = new StateParser();

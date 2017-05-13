@@ -46,10 +46,27 @@ export class StateParser {
         if (list == null) {
             return func;
         }
-        for (let item of list.items) {
-            let argument = this.mapArgument(item as YamlMap, func);
-            func.arguments.push(argument);
-        }
+        func.arguments = list.items.map(x => this.mapArgument(x as YamlMap, func));
+
+        const referenceNames: string[] = [
+            "require",
+            "watch",
+            "prereq",
+            "use",
+            "onchanges",
+            "onfail",
+            "require_in",
+            "watch_in",
+            "prereq_in",
+            "use_in",
+            "onchanges_in",
+            "onfail_in"
+        ];
+
+        func.references = func.arguments
+            .filter(x => referenceNames.findIndex(c => c == x.name) != -1)
+            .map(x => x.values.map(c => c.value))
+            .reduce((x, y) => x.concat(y), []);
 
         return func;
     }
@@ -78,6 +95,20 @@ export class StateParser {
             value.startIndex = root.startPosition;
             value.endIndex = root.endPosition;
             value.argument = arg;
+            return [value];
+        } else if (root.kind == Kind.MAP) {
+            var value = new StateFunctionArgumentValue();
+            value.startIndex = root.startPosition;
+            value.endIndex = root.endPosition;
+            let map = root as YamlMap;
+            value.value = map.mappings.map(x => `${x.key.value}: ${x.value.value}`).reduce((x, y) => x + ", " + y);
+            return [value];
+        }
+        else {
+            console.warn("Unknown kind found", root.kind);
+            var value = new StateFunctionArgumentValue();
+            value.startIndex = root.startPosition;
+            value.endIndex = root.endPosition;
             return [value];
         }
     }

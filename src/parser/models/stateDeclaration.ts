@@ -14,6 +14,9 @@ export class StateFunction extends StateNode {
     public name: string;
     public declaration: StateDeclaration;
     public arguments: StateFunctionArgument[] = new Array<StateFunctionArgument>();
+
+    public references = new Array<string>();
+
     public get childrenNodes(): StateNode[] {
         return this.arguments;
     }
