@@ -95,7 +95,7 @@ test('Can parse argument.', t => {
     // Assert
     t.is(result.declarations[0].functions[0].arguments.length, 5);
     t.is(result.declarations[0].functions[0].arguments[0].name, "user");
-    t.is(result.declarations[0].functions[0].arguments[0].value.value, "root");
+    t.is(result.declarations[0].functions[0].arguments[0].values[0].value, "root");
     t.is(result.declarations[0].functions[0].arguments[0].startIndex, 39);
     t.is(result.declarations[0].functions[0].arguments[0].endIndex, 43);
     t.is(result.declarations[0].functions[0].arguments[0].function, result.declarations[0].functions[0]);
@@ -120,10 +120,31 @@ test('Can parse argument value.', t => {
     let result = host.mapFile(document);
 
     // Assert
-    t.is(result.declarations[0].functions[0].arguments[0].value.value, "root");
-    t.is(result.declarations[0].functions[0].arguments[0].value.startIndex, 45);
-    t.is(result.declarations[0].functions[0].arguments[0].value.endIndex, 49);
-    t.is(result.declarations[0].functions[0].arguments[0].value.argument, result.declarations[0].functions[0].arguments[0]);
+    t.is(result.declarations[0].functions[0].arguments[0].values[0].value, "root");
+    t.is(result.declarations[0].functions[0].arguments[0].values[0].startIndex, 45);
+    t.is(result.declarations[0].functions[0].arguments[0].values[0].endIndex, 49);
+    t.is(result.declarations[0].functions[0].arguments[0].values[0].argument, result.declarations[0].functions[0].arguments[0]);
+});
+
+test('Can parse multiple argument values.', t => {
+
+    let host = new FileParser();
+    const document =
+        `
+/etc/postfix:
+  file.directory:
+    - user: 
+      - root
+`;
+
+    // Act
+    let result = host.mapFile(document);
+
+    // Assert
+    t.is(result.declarations[0].functions[0].arguments[0].values[0].value, "root");
+    t.is(result.declarations[0].functions[0].arguments[0].values[0].startIndex, 54);
+    t.is(result.declarations[0].functions[0].arguments[0].values[0].endIndex, 58);
+    t.is(result.declarations[0].functions[0].arguments[0].values[0].argument, result.declarations[0].functions[0].arguments[0]);
 });
 
 test('Can parse include.', t => {
@@ -145,7 +166,7 @@ include:
 });
 
 
-test('Can parse include.', t => {
+test('Can parse include refs.', t => {
 
     let host = new FileParser();
     const document =

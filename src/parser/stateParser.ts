@@ -62,17 +62,23 @@ export class StateParser {
         argument.endIndex = root.mappings[0].key.endPosition;
         argument.function = func;
 
-        argument.value = this.mapArgumentValue(root.mappings[0].value, argument);
+        argument.values = this.mapArgumentValue(root.mappings[0].value, argument);
 
         return argument;
     }
 
-    private mapArgumentValue(root: YAMLNode, arg: StateFunctionArgument): StateFunctionArgumentValue {
-        var value = new StateFunctionArgumentValue();
-        value.value = root.value;
-        value.startIndex = root.startPosition;
-        value.endIndex = root.endPosition;
-        value.argument = arg;
-        return value;
+    private mapArgumentValue(root: YAMLNode, arg: StateFunctionArgument): Array<StateFunctionArgumentValue> {
+        if (root.kind == Kind.SEQ) {
+            let seq = root as YAMLSequence;
+            var items = seq.items.map(x => this.mapArgumentValue(x, arg)).reduce((x, y) => x.concat(y));
+            return items;
+        } else if (root.kind == Kind.SCALAR) {
+            var value = new StateFunctionArgumentValue();
+            value.value = root.value;
+            value.startIndex = root.startPosition;
+            value.endIndex = root.endPosition;
+            value.argument = arg;
+            return [value];
+        }
     }
 }

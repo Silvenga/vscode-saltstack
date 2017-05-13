@@ -21,15 +21,15 @@ export class StateFunction extends StateNode {
 
 export class StateFunctionArgument extends StateNode {
     public name: string;
-    public value: StateFunctionArgumentValue;
+    public values = new Array<StateFunctionArgumentValue>();
     public function: StateFunction;
     public get childrenNodes(): StateNode[] {
-        return [this.value];
+        return this.values;
     }
 }
 
 export class StateFunctionArgumentValue extends StateNode {
-    public value: string; // TODO value.value sucks
+    public value: string;
     public argument: StateFunctionArgument;
     public get childrenNodes(): StateNode[] {
         return [];
