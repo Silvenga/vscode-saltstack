@@ -1,5 +1,6 @@
-# include:
-#   - postfix
+include:
+  - postfix
+  - .something
 
 /etc/postfix:
   file.directory:

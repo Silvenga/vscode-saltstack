@@ -1,10 +1,10 @@
 import test from 'ava';
 import { expect } from 'chai';
-import { StateParser } from "../../src/parser/stateParser"
+import { FileParser } from "../../src/parser/fileParser"
 
 test('Can parse single declaration', t => {
 
-    let host = new StateParser();
+    let host = new FileParser();
     const document =
         `
 /etc/postfix:
@@ -28,7 +28,7 @@ test('Can parse single declaration', t => {
 
 test('Can parse when jinja statements are present.', t => {
 
-    let host = new StateParser();
+    let host = new FileParser();
     const document =
         `
 test1:
@@ -50,7 +50,7 @@ test2:
 
 test('Can parse function.', t => {
 
-    let host = new StateParser();
+    let host = new FileParser();
     const document =
         `
 /etc/postfix:
@@ -77,7 +77,7 @@ test('Can parse function.', t => {
 
 test('Can parse argument.', t => {
 
-    let host = new StateParser();
+    let host = new FileParser();
     const document =
         `
 /etc/postfix:
@@ -104,7 +104,7 @@ test('Can parse argument.', t => {
 
 test('Can parse argument value.', t => {
 
-    let host = new StateParser();
+    let host = new FileParser();
     const document =
         `
 /etc/postfix:
@@ -124,5 +124,43 @@ test('Can parse argument value.', t => {
     t.is(result.declarations[0].functions[0].arguments[0].value.startIndex, 45);
     t.is(result.declarations[0].functions[0].arguments[0].value.endIndex, 49);
     t.is(result.declarations[0].functions[0].arguments[0].value.argument, result.declarations[0].functions[0].arguments[0]);
+});
+
+test('Can parse include.', t => {
+
+    let host = new FileParser();
+    const document =
+        `
+include:
+  - postfix
+`;
+
+    // Act
+    let result = host.mapFile(document);
+
+    // Assert
+    t.is(result.include.startIndex, 1);
+    t.is(result.include.endIndex, 8);
+    t.is(result.include.file, result);
+});
+
+
+test('Can parse include.', t => {
+
+    let host = new FileParser();
+    const document =
+        `
+include:
+  - postfix
+`;
+
+    // Act
+    let result = host.mapFile(document);
+
+    // Assert
+    t.deepEqual(result.include.references[0].reference, "postfix");
+    t.is(result.include.references[0].startIndex, 14);
+    t.is(result.include.references[0].endIndex, 21);
+    t.is(result.include.references[0].include, result.include);
 });
 

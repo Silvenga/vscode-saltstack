@@ -17,34 +17,7 @@ const LineBreakRegex = /\r?\n/;
 
 export class StateParser {
 
-    public stripDocument(document: string): string {
-        let jinjaDirectives = /\{[#%][\w\W]*?[#%]\}/g;
-        return document.replace(jinjaDirectives,
-            // Find all Jinja directives, then replace all non-new lines with empty
-            x => x.replace(/./g, ""));
-    }
-
-    public getYaml(document: string) {
-        return yaml.safeLoad(document, {}) as YamlMap;
-    }
-
-    public mapFile(document: string): StateFile {
-
-        let strippedDocument = this.stripDocument(document);
-        var root = this.getYaml(strippedDocument);
-        let file = new StateFile();
-        file.startIndex = root.startPosition;
-        file.endIndex = root.endPosition;
-
-        for (let branch of root.mappings) {
-            let declaration = this.mapDeclaration(branch, file);
-            file.declarations.push(declaration);
-        }
-
-        return file;
-    }
-
-    private mapDeclaration(root: YAMLMapping, file: StateFile): StateDeclaration {
+    public mapDeclaration(root: YAMLMapping, file: StateFile): StateDeclaration {
         let declaration = new StateDeclaration();
         declaration.startIndex = root.key.startPosition;
         declaration.endIndex = root.key.endPosition;
@@ -59,7 +32,6 @@ export class StateParser {
             let func = this.mapFunction(map, declaration);
             declaration.functions.push(func);
         }
-
         return declaration;
     }
 
@@ -102,15 +74,5 @@ export class StateParser {
         value.endIndex = root.endPosition;
         value.argument = arg;
         return value;
-    }
-
-    public flatten(root: StateNode): StateNode[] {
-        if (root.childrenNodes.length == 0) {
-            return [root];
-        }
-        let children = root.childrenNodes
-            .map(x => this.flatten(x))
-            .reduce((pre, next) => pre.concat(next));
-        return [root].concat(children);
     }
 }

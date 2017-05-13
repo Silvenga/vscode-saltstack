@@ -1,10 +1,10 @@
 import test from 'ava';
 import { expect } from 'chai';
-import { StateParser } from "../../src/parser/stateParser"
+import { FileParser } from "../../src/parser/fileParser"
 
 test('When stripping document, keep lines', t => {
 
-    let host = new StateParser();
+    let host = new FileParser();
     const document =
         `
 {% test 
@@ -22,7 +22,7 @@ normal:
 
 test('When stripping document, remove jinja statements', t => {
 
-    let host = new StateParser();
+    let host = new FileParser();
     const document =
         `
 {% test 

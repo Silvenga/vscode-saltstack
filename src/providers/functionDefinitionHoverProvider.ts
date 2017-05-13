@@ -1,7 +1,8 @@
 import { HoverProvider, Hover, MarkedString, TextDocument, CancellationToken, Position, window, ProviderResult } from 'vscode';
-import { StateParser } from "../parser/stateParser"
+import { FileParser } from "../parser/fileParser"
 import { StateFile } from "../parser/models/stateFile"
 import { StateNode } from "../parser/models/stateNode"
+import { StateInclude, StateIncludeReference } from "../parser/models/stateInclude"
 import { StateDeclaration, StateFunction, StateFunctionArgument, StateFunctionArgumentValue } from "../parser/models/stateDeclaration"
 
 import { Assets } from "./../assets"
@@ -11,7 +12,7 @@ export class FunctionDefinitionHoverProvider implements HoverProvider {
     provideHover(document: TextDocument, position: Position, token: CancellationToken): ProviderResult<Hover> {
 
         let offset = document.offsetAt(position);
-        let host = new StateParser();
+        let host = new FileParser();
         let map = host.mapFile(document.getText());
         let nodes = host.flatten(map);
 
@@ -49,8 +50,18 @@ export class FunctionDefinitionHoverProvider implements HoverProvider {
             return this.toHover(message);
         }
 
+        if (hoverNode instanceof StateInclude) {
+            let message = `(include)`;
+            return this.toHover(message);
+        }
+
+        if (hoverNode instanceof StateIncludeReference) {
+            let message = `${hoverNode.reference} _${hoverNode.isRelative ? "Relative" : "Absolute"}_ (include reference)`;
+            return this.toHover(message);
+        }
+
         if (hoverNode != null) {
-            return new Hover(JSON.stringify(hoverNode));
+            return new Hover("Known");
         }
 
         return null;
