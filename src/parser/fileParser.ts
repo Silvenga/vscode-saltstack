@@ -40,7 +40,7 @@ export class FileParser {
             if (branch.value.kind == Kind.MAP) {
                 let declaration = this.stateParser.mapDeclaration(branch, file);
                 file.declarations.push(declaration);
-            } else if (branch.value.kind == Kind.SEQ) {
+            } else if (branch.value.kind == Kind.SEQ && branch.key.value == "include") {
                 let include = this.includeParser.mapInclude(branch, file);
                 file.include = include;
             }

@@ -7,7 +7,6 @@ import { StateDeclaration, StateFunction, StateFunctionArgument, StateFunctionAr
 
 import { Assets } from "./../assets"
 
-
 export class FunctionDefinitionHoverProvider implements HoverProvider {
     provideHover(document: TextDocument, position: Position, token: CancellationToken): ProviderResult<Hover> {
 

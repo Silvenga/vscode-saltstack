@@ -22,10 +22,15 @@ export class IncludeParser {
 
     private mapReferences(root: YAMLNode, include: StateInclude): StateIncludeReference {
         let ref = new StateIncludeReference();
+        ref.include = include;
+        if (root == null) {
+            ref.startIndex = -1;
+            ref.endIndex = -1;
+            return ref;
+        }
         ref.startIndex = root.startPosition;
         ref.endIndex = root.endPosition;
         ref.reference = root.value;
-        ref.include = include;
         return ref;
     }
 }
